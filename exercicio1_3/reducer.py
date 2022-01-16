@@ -2,7 +2,8 @@
 
 import sys
 
-memo = 0
+memo = {}
+lista=[]
 oldKey = None
 
 # Loop around the data
@@ -20,19 +21,24 @@ for line in sys.stdin:
 
 
     thisKey, Precio = data_mapped
-    
-    # Escribe un par key:value ante un cambio na key
-    # Reinicia o total
     if oldKey == None:
-       oldKey = thisKey 
-    if float(memo)<float(Precio):
-        memo=float(Precio)
-    if oldKey != thisKey:
-        print(oldKey,"\t", memo)
-        memo = 0
         oldKey = thisKey
+    if oldKey==thisKey:
+        lista.append(Precio)
+    if oldKey != thisKey:
+        memo.update({oldKey : lista})
+        lista=[]
+        oldKey= thisKey
 
+memo.update({oldKey : lista})
+max = 0
 
-# Escribe o último par, unha vez rematado o bucle
-if oldKey != None:
-    print(oldKey,"\t", memo)
+for tarjetas, valores in memo.items():
+    for i in range(len(valores)):
+        valores[i]=float(valores[i])
+        if valores[i]>max:
+            max=valores[i]
+    memo.update({tarjetas : max})
+    print(tarjetas, "\t", max)
+    max = 0
+
