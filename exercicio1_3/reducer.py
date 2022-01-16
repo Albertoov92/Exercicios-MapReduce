@@ -2,7 +2,7 @@
 
 import sys
 
-memo = ''
+memo = 0
 oldKey = None
 
 # Loop around the data
@@ -23,13 +23,15 @@ for line in sys.stdin:
     
     # Escribe un par key:value ante un cambio na key
     # Reinicia o total
-    if oldKey and oldKey != thisKey:
-        print(oldKey,"\t", Precio)
+    if oldKey == None:
+       oldKey = thisKey 
+    if float(memo)<float(Precio):
+        memo=float(Precio)
+    if oldKey != thisKey:
+        print(oldKey,"\t", memo)
+        memo = 0
+        oldKey = thisKey
 
-
-    oldKey = thisKey
-    if Precio>memo:
-        memo==Precio
 
 # Escribe o último par, unha vez rematado o bucle
 if oldKey != None:
