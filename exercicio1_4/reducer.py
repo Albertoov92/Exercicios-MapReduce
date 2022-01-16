@@ -2,7 +2,7 @@
 
 import sys
 
-salesTotal = 0
+memo = 0
 oldKey = None
 
 # Loop around the data
@@ -18,18 +18,21 @@ for line in sys.stdin:
         # Something has gone wrong. Skip this line.
         continue
 
-    thisKey, thisSale = data_mapped
 
+    thisKey, Precio = data_mapped
+    
     # Escribe un par key:value ante un cambio na key
     # Reinicia o total
-    if oldKey and oldKey != thisKey:
-        print(oldKey, "\t", salesTotal)
-        oldKey = thisKey;  # creo que sobra esta liña
-        salesTotal = 0
+    if oldKey == None:
+       oldKey = thisKey 
+    if float(memo)<float(Precio):
+        memo=float(Precio)
+    if oldKey != thisKey:
+        print(oldKey,"\t", memo)
+        memo = 0
+        oldKey = thisKey
 
-    oldKey = thisKey
-    salesTotal += float(thisSale)
 
 # Escribe o último par, unha vez rematado o bucle
 if oldKey != None:
-    print(oldKey, "\t", salesTotal)
+    print(oldKey,"\t", memo)
